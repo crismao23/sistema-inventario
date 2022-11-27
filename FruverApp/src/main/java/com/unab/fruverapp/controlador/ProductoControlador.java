@@ -1,14 +1,31 @@
 package com.unab.fruverapp.controlador;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/hola")
+@RequestMapping("/producto")
 public class ProductoControlador {
-    @GetMapping()
+    @GetMapping("/all")
     public String holaMundo(){
-        return "Hola mundo";
+        return "get all";
+    }
+    @GetMapping("/{id}")
+    public String getAllProductos(){
+        return "get id";
+    }
+
+    @PostMapping("/save")
+    public String saveProduct(){
+        return "post save";
+    }
+
+    @PutMapping("/update/{id}")
+    public String updateProducto(){
+        return "post/put {id}";
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteProduct(){
+        return "delete {id}";
     }
 }
