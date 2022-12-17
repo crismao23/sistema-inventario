@@ -42,6 +42,7 @@ public class ProductoControlador {
         return productoServicio.save(p);
     }
 
+
     @DeleteMapping("/{id}")
     public String deletePacienteById(@PathVariable("id") String id){
         return productoServicio.deleteById(id);

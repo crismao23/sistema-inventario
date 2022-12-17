@@ -3,6 +3,7 @@ package com.unab.surtifruver.servicio;
 import com.unab.surtifruver.modelo.FacturaModelo;
 import com.unab.surtifruver.modelo.ProductoModelo;
 import com.unab.surtifruver.repositorio.FacturaRepositorio;
+import com.unab.surtifruver.repositorio.ProductoRepositorio;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,12 +26,12 @@ public class FacturaServicio {
         if (factura.getId() == null || !facturaRepositorio.existsById(factura.getId())) {
             factura.setSubtotal(calcularSubtotal(factura));
             facturaRepositorio.save(factura);
-//            actualizarInventario(factura);
+            actualizarInventario();
             return "Se agregó una nueva factura";
         } else {
             factura.setSubtotal(calcularSubtotal(factura));
             facturaRepositorio.save(factura);
-//            actualizarInventario(factura);
+            actualizarInventario();
             return "factura ACTUALIZADA";
         }
     }
@@ -51,8 +52,8 @@ public class FacturaServicio {
         }
     }
 
-    public int calcularSubtotal(FacturaModelo factura){
-        Optional <ProductoModelo> precioUnitario = productoServicio.getProductoById(factura.getIdProducto());
+    public int calcularSubtotal(FacturaModelo factura) {
+        Optional<ProductoModelo> precioUnitario = productoServicio.getProductoById(factura.getIdProducto());
 
         return precioUnitario.get().getPrecio() * factura.getCantProductosComprados();
     }
@@ -61,24 +62,20 @@ public class FacturaServicio {
         return facturaRepositorio.findById(id);
     }
 
-//    public void actualizarInventario(FacturaModelo factura){
-//        productoServicio = productoServicio.getProductoById(factura.getIdProducto());
-//        Integer inventarioPreFactura = producto.get().getInventario();
-//        Integer cantProductosFacturados = factura.getCantProductosComprados();
-//        Integer inventarioActualizado = inventarioPreFactura - cantProductosFacturados;
-//        producto.get().setInventario(inventarioActualizado);
-//        producto.get().setId(factura.getIdProducto());
-//        producto.get().setCategoria(producto.get().getCategoria());
-//        producto.get().setPrecio(producto.get().getPrecio());
-//        producto.get().setInventario(inventarioActualizado);
-//        productoServicio.save(producto);
-//        System.out.println(producto);
-////
-//        producto.get().setInventario(producto.get().getInventario() - factura.getCantProductosComprados());
-//    }
-//                getCantProductosComprados();
-//        for (int i = 0; i < productos.size(); i++)
-//            System.out.println(productos.get(i).getNombre() + "= " + productos.get(i).getInventario());
-//        }
-//https://app.getpostman.com/join-team?invite_code=d9a794774d1e0ddd7a8c17b5ff94e4ae
+    public void actualizarInventario() {
+        List<FacturaModelo> listaFacturas = facturaRepositorio.findAll();
+        for (FacturaModelo factura : listaFacturas) {
+            Optional<ProductoModelo> productoActualizar = productoServicio.getProductoById(factura.getIdProducto());
+            String nombreProducto = productoActualizar.get().getNombre();
+            Integer inventarioProducto = productoActualizar.get().getInventario();
+            Integer inventarioActualizado = inventarioProducto - factura.getCantProductosComprados();
+            System.out.println("---------------------\nId de factura: " + factura.getId());
+            System.out.println("Inventario de " + nombreProducto + " antes de la facturación: " + inventarioProducto);
+            System.out.println("Cantidad facturada de " + nombreProducto + ": " + factura.getCantProductosComprados());
+            System.out.println("Inventario de " + nombreProducto + " después de la facturación: " + inventarioActualizado);
+            productoActualizar.get().setInventario(inventarioActualizado);
+            ProductoModelo jsonActualizado = new ProductoModelo(nombreProducto, nombreProducto, nombreProducto, inventarioProducto, inventarioActualizado, nombreProducto, nombreProducto);
+            
+        }
+    }
 }

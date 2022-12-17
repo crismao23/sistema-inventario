@@ -21,10 +21,10 @@ public class ProductoServicio {
 
         if (productoModelo.getId() == null || !productoRepositorio.existsById(productoModelo.getId())) {
             productoRepositorio.save(productoModelo);
-            return "Se agregó un nuevo PRODUCTO";
+            return productoModelo.getNombre() +  " agregado exitosamente";
         } else {
             productoRepositorio.save(productoModelo);
-            return "PRODUCTO ACTUALIZADO";
+            return "Producto " + productoModelo.getNombre() +  " actualizado exitosamente";
         }
     }
 
@@ -38,9 +38,9 @@ public class ProductoServicio {
         if (productoRepositorio.existsById(id)) {
             Optional<ProductoModelo> p = productoRepositorio.findById(id);
             productoRepositorio.deleteById(id);
-            return "PRODUCTO " + p.get().getNombre() + " eliminado";
+            return "Producto " + p.get().getNombre() + " eliminado";
         } else {
-            return "NO ELIMINADO";
+            return "No eliminado";
         }
 
     }

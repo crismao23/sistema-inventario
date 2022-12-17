@@ -24,6 +24,8 @@ public class ProductoModelo {
     private String categoria;
     private Integer precio;
     private Integer inventario;
+    private String descripcion;
+    private String urlImage;
 
     @Override
     public String toString() {
