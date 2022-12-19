@@ -1,33 +1,26 @@
-package com.misiontic.fruver.modelos;
 
-import jakarta.validation.constraints.NotNull;
+package com.misiontic.fruver.modelo;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-
-
+/**
+ *
+ * @author jjben
+ */
 @Document("usuarios")
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class UsuarioModelo {
-
-    @Id
+    //@Id
     private String id;
-    @NotNull
     private String nombreCompleto;
-    @NotNull
     private String password;
-    @NotNull
     private String email;
-    @NotNull
     private String rol;
-    @NotNull
-    private String imagenPerfil;
-
 }
