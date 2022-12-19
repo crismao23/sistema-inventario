@@ -15,8 +15,7 @@ public class UsuarioServicio {
     UsuarioRepositorio usuarioRepositorio;
 
     public String saveUsuario(UsuarioModelo usuario) {
-//        usuario.setNombre(usuario.getNombre().toLowerCase());
-//        usuario.setApellido(usuario.getApellido().toLowerCase());
+        usuario.setNombreCompleto(usuario.getNombreCompleto().toLowerCase());
 
         if (usuario.getId() == null || !usuarioRepositorio.existsById(usuario.getId())) {
             usuarioRepositorio.save(usuario);
@@ -44,16 +43,8 @@ public class UsuarioServicio {
 
     }
 
-    public Optional<UsuarioModelo> getProductoById(String id) {
+    public Optional<UsuarioModelo> getUsuarioById(String id) {
         return usuarioRepositorio.findById(id);
     }
-//
-//    public List<UsuarioModelo> getusuariosByApellido(String apellido) {
-//        return usuarioRepositorio.findByApellido(apellido);
-//    }
-//
-//    public List<UsuarioModelo> getusuariosByDireccion(Object direccion) {
-//        return usuarioRepositorio.findByDireccion(direccion);
-//    }
-//https://app.getpostman.com/join-team?invite_code=d9a794774d1e0ddd7a8c17b5ff94e4ae
+
 }

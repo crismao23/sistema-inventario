@@ -1,26 +1,24 @@
+package com.misiontic.fruver.dto;
 
-package com.misiontic.fruver.modelo;
-
+import com.misiontic.fruver.modelo.ProductoCompradoExtendedModelo;
+import com.misiontic.fruver.modelo.ProductoCompradoModelo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Document("factura")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class FacturaModelo {
-    @Id
+public class FacturaDTO {
+
     private String id;
+    private String nombreCompleto;
     private String fechaCompra;
-    private String idUsuario;
-    private List<ProductoCompradoModelo> productosComprados;
+    private List<ProductoCompradoExtendedModelo> productosCompradosExtended;
     private Long subtotal;
 }

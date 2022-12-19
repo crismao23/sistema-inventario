@@ -1,5 +1,7 @@
 package com.misiontic.fruver.servicio;
 
+import com.misiontic.fruver.dto.FacturaDTO;
+import com.misiontic.fruver.mapper.FacturaToFacturaDTO;
 import com.misiontic.fruver.modelo.FacturaModelo;
 import com.misiontic.fruver.modelo.ProductoCompradoModelo;
 import com.misiontic.fruver.modelo.ProductoModelo;
@@ -7,6 +9,7 @@ import com.misiontic.fruver.repositorio.FacturaRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +24,9 @@ public class FacturaServicio {
     @Autowired
     UsuarioServicio usuarioServicio;
 
+    @Autowired
+    FacturaToFacturaDTO mapper;
+
     public String saveFactura(FacturaModelo factura) {
 
         if (factura.getId() == null || !facturaRepositorio.existsById(factura.getId())) {
@@ -30,8 +36,7 @@ public class FacturaServicio {
         } else {
             factura.setSubtotal(calcularSubtotal(factura));
             facturaRepositorio.save(factura);
-//            actualizarInventario(factura);
-            return "factura ACTUALIZADA";
+            return "factura actualizada";
         }
     }
 
@@ -39,6 +44,17 @@ public class FacturaServicio {
         List<FacturaModelo> listafacturas = facturaRepositorio.findAll();
         listafacturas.sort(Comparator.comparing(FacturaModelo::getId));
         return listafacturas;
+    }
+
+    public List<FacturaDTO> getAllFacturasExtended() {
+        List<FacturaModelo> listafacturas = facturaRepositorio.findAll();
+        listafacturas.sort(Comparator.comparing(FacturaModelo::getId));
+        List<FacturaDTO> facturaDTOS = new ArrayList<>();
+
+        for (FacturaModelo factura: listafacturas) {
+            facturaDTOS.add(mapper.map(factura));
+        }
+        return facturaDTOS;
     }
 
     public String deleteById(String id) {
@@ -62,32 +78,12 @@ public class FacturaServicio {
         }
         return subtotal;
     }
-
-
-
-
     public Optional<FacturaModelo> getFacturaById(String id) {
         return facturaRepositorio.findById(id);
     }
 
-//    public void actualizarInventario(FacturaModelo factura){
-//        productoServicio = productoServicio.getProductoById(factura.getIdProducto());
-//        Integer inventarioPreFactura = producto.get().getInventario();
-//        Integer cantProductosFacturados = factura.getCantProductosComprados();
-//        Integer inventarioActualizado = inventarioPreFactura - cantProductosFacturados;
-//        producto.get().setInventario(inventarioActualizado);
-//        producto.get().setId(factura.getIdProducto());
-//        producto.get().setCategoria(producto.get().getCategoria());
-//        producto.get().setPrecio(producto.get().getPrecio());
-//        producto.get().setInventario(inventarioActualizado);
-//        productoServicio.save(producto);
-//        System.out.println(producto);
-////
-//        producto.get().setInventario(producto.get().getInventario() - factura.getCantProductosComprados());
-//    }
-//                getCantProductosComprados();
-//        for (int i = 0; i < productos.size(); i++)
-//            System.out.println(productos.get(i).getNombre() + "= " + productos.get(i).getInventario());
-//        }
-//https://app.getpostman.com/join-team?invite_code=d9a794774d1e0ddd7a8c17b5ff94e4ae
+    public List<FacturaModelo> getFacturasByIdUsuario(String idUsuario){
+        return facturaRepositorio.findByIdUsuario(idUsuario);
+    }
+
 }

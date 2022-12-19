@@ -9,16 +9,12 @@ import com.misiontic.fruver.modelo.FacturaModelo;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-// import java.util.List;
+import java.util.List;
 
-/**
- *
- * @author jjben
- */
+
 @Repository
 public interface FacturaRepositorio extends MongoRepository <FacturaModelo, String> {
-//
-//    List<ProductoModelo> findByApellido(String apellido);
-//
-//    List<ProductoModelo> findByDireccion(Object direccion);
+
+    List<FacturaModelo> findByIdUsuario(String idUsuario);
+
 }

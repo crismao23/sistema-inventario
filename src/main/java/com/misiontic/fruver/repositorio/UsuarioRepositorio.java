@@ -9,16 +9,7 @@ import com.misiontic.fruver.modelo.UsuarioModelo;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-// import java.util.List;
-
-/**
- *
- * @author jjben
- */
 @Repository
 public interface UsuarioRepositorio extends MongoRepository <UsuarioModelo, String> {
-//
-//    List<ProductoModelo> findByApellido(String apellido);
-//
-//    List<ProductoModelo> findByDireccion(Object direccion);
+
 }
