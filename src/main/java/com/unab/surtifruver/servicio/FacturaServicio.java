@@ -1,6 +1,7 @@
 package com.unab.surtifruver.servicio;
 
 import com.unab.surtifruver.modelo.FacturaModelo;
+import com.unab.surtifruver.modelo.ProductoCompradoModelo;
 import com.unab.surtifruver.modelo.ProductoModelo;
 import com.unab.surtifruver.repositorio.FacturaRepositorio;
 
@@ -17,6 +18,7 @@ public class FacturaServicio {
     FacturaRepositorio facturaRepositorio;
     @Autowired
     ProductoServicio productoServicio;
+
     @Autowired
     UsuarioServicio usuarioServicio;
 
@@ -25,7 +27,6 @@ public class FacturaServicio {
         if (factura.getId() == null || !facturaRepositorio.existsById(factura.getId())) {
             factura.setSubtotal(calcularSubtotal(factura));
             facturaRepositorio.save(factura);
-//            actualizarInventario(factura);
             return "Se agregó una nueva factura";
         } else {
             factura.setSubtotal(calcularSubtotal(factura));
@@ -51,11 +52,20 @@ public class FacturaServicio {
         }
     }
 
-    public int calcularSubtotal(FacturaModelo factura){
-        Optional <ProductoModelo> precioUnitario = productoServicio.getProductoById(factura.getIdProducto());
+    public Long calcularSubtotal(FacturaModelo factura){
+        long subtotal = 0;
+        int cantidad = 0;
+        List<ProductoCompradoModelo> productoCompradoModelos = factura.getProductosComprados();
 
-        return precioUnitario.get().getPrecio() * factura.getCantProductosComprados();
+        for (ProductoCompradoModelo productoFactura: productoCompradoModelos) {
+             ProductoModelo producto = productoServicio.getProductoById(productoFactura.getIdProducto()).get();
+             subtotal += (producto.getPrecio() * productoFactura.getCantidad());
+        }
+        return subtotal;
     }
+
+
+
 
     public Optional<FacturaModelo> getFacturaById(String id) {
         return facturaRepositorio.findById(id);
