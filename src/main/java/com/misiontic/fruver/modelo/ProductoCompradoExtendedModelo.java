@@ -10,6 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProductoCompradoExtendedModelo {
+    private String idProducto;
     private String nombre;
     private Integer cantidad;
     private Integer precio;

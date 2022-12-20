@@ -5,7 +5,7 @@
  */
 package com.misiontic.fruver.repositorio;
 
-import com.misiontic.fruver.modelo.FacturaModelo;
+import com.misiontic.fruver.modelo.FacturaExtendedModelo;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,8 +13,8 @@ import java.util.List;
 
 
 @Repository
-public interface FacturaRepositorio extends MongoRepository <FacturaModelo, String> {
+public interface FacturaRepositorio extends MongoRepository <FacturaExtendedModelo, String> {
 
-    List<FacturaModelo> findByIdUsuario(String idUsuario);
+    List<FacturaExtendedModelo> findByIdUsuario(String idUsuario);
 
 }

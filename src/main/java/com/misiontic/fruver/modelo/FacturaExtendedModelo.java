@@ -15,11 +15,12 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-public class FacturaModelo {
+public class FacturaExtendedModelo {
     @Id
     private String id;
+    private String nombreCompleto;
     private String fechaCompra;
     private String idUsuario;
-    private List<ProductoCompradoModelo> productosComprados;
+    private List<ProductoCompradoExtendedModelo> productosComprados;
     private Long subtotal;
 }
